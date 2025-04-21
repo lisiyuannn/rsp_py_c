@@ -1,2 +1,2 @@
-/usr/bin/ar qc /home/siyuan/ai_device/lib/libthreadpool.a CMakeFiles/threadpool.dir/src/threadpool.cpp.o
-/usr/bin/ranlib /home/siyuan/ai_device/lib/libthreadpool.a
+/usr/bin/ar qc /home/siyuan/rsp_py_c/ai_device/lib/libthreadpool.a CMakeFiles/threadpool.dir/src/threadpool.cpp.o
+/usr/bin/ranlib /home/siyuan/rsp_py_c/ai_device/lib/libthreadpool.a

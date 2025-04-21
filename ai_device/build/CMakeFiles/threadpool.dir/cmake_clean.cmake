@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/siyuan/ai_device/lib/libthreadpool.a"
-  "/home/siyuan/ai_device/lib/libthreadpool.pdb"
+  "/home/siyuan/rsp_py_c/ai_device/lib/libthreadpool.a"
+  "/home/siyuan/rsp_py_c/ai_device/lib/libthreadpool.pdb"
   "CMakeFiles/threadpool.dir/src/threadpool.cpp.o"
   "CMakeFiles/threadpool.dir/src/threadpool.cpp.o.d"
 )

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/siyuan/ai_device/include
+CXX_INCLUDES = -I/home/siyuan/rsp_py_c/ai_device/include
 
-CXX_FLAGS = -std=gnu++11
+CXX_FLAGS = -g -g -O0 -std=gnu++11
 

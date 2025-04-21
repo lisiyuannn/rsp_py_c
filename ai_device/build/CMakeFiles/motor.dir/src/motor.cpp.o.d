@@ -1,2 +1,2 @@
 CMakeFiles/motor.dir/src/motor.cpp.o: \
- /home/siyuan/ai_device/src/motor.cpp /usr/include/stdc-predef.h
+ /home/siyuan/rsp_py_c/ai_device/src/motor.cpp /usr/include/stdc-predef.h

@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/siyuan/ai_device/src/led.cpp" "CMakeFiles/led.dir/src/led.cpp.o" "gcc" "CMakeFiles/led.dir/src/led.cpp.o.d"
+  "/home/siyuan/rsp_py_c/ai_device/src/led.cpp" "CMakeFiles/led.dir/src/led.cpp.o" "gcc" "CMakeFiles/led.dir/src/led.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

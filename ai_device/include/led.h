@@ -8,37 +8,50 @@
 #ifndef __LED_H
 #define __LED_H
 
-enum class LedColor 
-{
-    OFF,    // 默认为 0
-    RED,    // 默认为 1
-    GREEN,  // 默认为 2
-    ORANGE  // 默认为 3
-};
+#include "threadpool.h"
 
+class ColorLed;
+
+/**
+ * @brief: LED control data structure
+ */
+struct LedPwm
+{
+    int pin;
+    int freq;
+    int duty;
+    ColorLed *led;
+};
 
 /**
  * @brief: LED control class
  * @note: This class is used to control the LED on the device
  */
-class TricolourLed
+class ColorLed
 {
-public:
+private:
     int m_red_pin;
     int m_grn_pin;
-    int m_org_pin;
-public:
-    TricolourLed(int m_red_pin, int m_grn_pin, int m_org_pin);
-    ~TricolourLed();
+    int m_blue_pin;
 
-    void setColor(LedColor color);
+public:
+    ThreadPool *m_threadpool; //线程池对象
+
+public:
+    ColorLed(int m_red_pin, int m_grn_pin, int m_blue_pin);
+    ~ColorLed();
+
+    void setColor(int color[]);
+    void setLedOff(void);
 
 private:
-    void _set_led_red(void);
-    void _set_led_grn(void);
-    void _set_led_org(void);
-    void _set_led_off(void);
+    bool m_red_flag;    //控制红色灯是否打开的标志位
+    bool m_grn_flag;    //控制绿色灯是否打开的标志位
+    bool m_blue_flag;   //控制蓝色灯是否打开的标志位
 
+private:
+    void _set_pwm_off(int pin);
+    static void _set_led_pwm(void* arg);
 };
 
 #endif

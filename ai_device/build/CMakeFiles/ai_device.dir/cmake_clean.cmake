@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/siyuan/ai_device/ai_device"
-  "/home/siyuan/ai_device/ai_device.pdb"
+  "/home/siyuan/rsp_py_c/ai_device/ai_device"
+  "/home/siyuan/rsp_py_c/ai_device/ai_device.pdb"
   "CMakeFiles/ai_device.dir/src/main.cpp.o"
   "CMakeFiles/ai_device.dir/src/main.cpp.o.d"
 )

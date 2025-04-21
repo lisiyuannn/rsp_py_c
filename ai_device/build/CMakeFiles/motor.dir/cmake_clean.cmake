@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/siyuan/ai_device/lib/libmotor.a"
-  "/home/siyuan/ai_device/lib/libmotor.pdb"
+  "/home/siyuan/rsp_py_c/ai_device/lib/libmotor.a"
+  "/home/siyuan/rsp_py_c/ai_device/lib/libmotor.pdb"
   "CMakeFiles/motor.dir/src/motor.cpp.o"
   "CMakeFiles/motor.dir/src/motor.cpp.o.d"
 )

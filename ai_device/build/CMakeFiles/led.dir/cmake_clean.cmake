@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/siyuan/ai_device/lib/libled.a"
-  "/home/siyuan/ai_device/lib/libled.pdb"
+  "/home/siyuan/rsp_py_c/ai_device/lib/libled.a"
+  "/home/siyuan/rsp_py_c/ai_device/lib/libled.pdb"
   "CMakeFiles/led.dir/src/led.cpp.o"
   "CMakeFiles/led.dir/src/led.cpp.o.d"
 )

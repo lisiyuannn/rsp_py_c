@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/siyuan/ai_device
+CMAKE_SOURCE_DIR = /home/siyuan/rsp_py_c/ai_device
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/siyuan/ai_device/build
+CMAKE_BINARY_DIR = /home/siyuan/rsp_py_c/ai_device/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -89,14 +89,14 @@ clean: CMakeFiles/ai_device.dir/clean
 CMakeFiles/digital_disp.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/digital_disp.dir/build.make CMakeFiles/digital_disp.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/digital_disp.dir/build.make CMakeFiles/digital_disp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/siyuan/ai_device/build/CMakeFiles --progress-num=3,4 "Built target digital_disp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/siyuan/rsp_py_c/ai_device/build/CMakeFiles --progress-num=3,4 "Built target digital_disp"
 .PHONY : CMakeFiles/digital_disp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/digital_disp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/ai_device/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/rsp_py_c/ai_device/build/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/digital_disp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/ai_device/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/rsp_py_c/ai_device/build/CMakeFiles 0
 .PHONY : CMakeFiles/digital_disp.dir/rule
 
 # Convenience name for target.
@@ -115,14 +115,14 @@ CMakeFiles/digital_disp.dir/clean:
 CMakeFiles/led.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/led.dir/build.make CMakeFiles/led.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/led.dir/build.make CMakeFiles/led.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/siyuan/ai_device/build/CMakeFiles --progress-num=5,6 "Built target led"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/siyuan/rsp_py_c/ai_device/build/CMakeFiles --progress-num=5,6 "Built target led"
 .PHONY : CMakeFiles/led.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/led.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/ai_device/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/rsp_py_c/ai_device/build/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/led.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/ai_device/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/rsp_py_c/ai_device/build/CMakeFiles 0
 .PHONY : CMakeFiles/led.dir/rule
 
 # Convenience name for target.
@@ -141,14 +141,14 @@ CMakeFiles/led.dir/clean:
 CMakeFiles/motor.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/motor.dir/build.make CMakeFiles/motor.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/motor.dir/build.make CMakeFiles/motor.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/siyuan/ai_device/build/CMakeFiles --progress-num=7,8 "Built target motor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/siyuan/rsp_py_c/ai_device/build/CMakeFiles --progress-num=7,8 "Built target motor"
 .PHONY : CMakeFiles/motor.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/motor.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/ai_device/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/rsp_py_c/ai_device/build/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/motor.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/ai_device/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/rsp_py_c/ai_device/build/CMakeFiles 0
 .PHONY : CMakeFiles/motor.dir/rule
 
 # Convenience name for target.
@@ -167,14 +167,14 @@ CMakeFiles/motor.dir/clean:
 CMakeFiles/threadpool.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/threadpool.dir/build.make CMakeFiles/threadpool.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/threadpool.dir/build.make CMakeFiles/threadpool.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/siyuan/ai_device/build/CMakeFiles --progress-num=9,10 "Built target threadpool"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/siyuan/rsp_py_c/ai_device/build/CMakeFiles --progress-num=9,10 "Built target threadpool"
 .PHONY : CMakeFiles/threadpool.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/threadpool.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/ai_device/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/rsp_py_c/ai_device/build/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/threadpool.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/ai_device/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/rsp_py_c/ai_device/build/CMakeFiles 0
 .PHONY : CMakeFiles/threadpool.dir/rule
 
 # Convenience name for target.
@@ -196,14 +196,14 @@ CMakeFiles/ai_device.dir/all: CMakeFiles/motor.dir/all
 CMakeFiles/ai_device.dir/all: CMakeFiles/threadpool.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ai_device.dir/build.make CMakeFiles/ai_device.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ai_device.dir/build.make CMakeFiles/ai_device.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/siyuan/ai_device/build/CMakeFiles --progress-num=1,2 "Built target ai_device"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/siyuan/rsp_py_c/ai_device/build/CMakeFiles --progress-num=1,2 "Built target ai_device"
 .PHONY : CMakeFiles/ai_device.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ai_device.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/ai_device/build/CMakeFiles 10
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/rsp_py_c/ai_device/build/CMakeFiles 10
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ai_device.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/ai_device/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/siyuan/rsp_py_c/ai_device/build/CMakeFiles 0
 .PHONY : CMakeFiles/ai_device.dir/rule
 
 # Convenience name for target.
