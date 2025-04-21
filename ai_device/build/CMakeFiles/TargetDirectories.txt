@@ -1,0 +1,7 @@
+/home/siyuan/ai_device/build/CMakeFiles/digital_disp.dir
+/home/siyuan/ai_device/build/CMakeFiles/led.dir
+/home/siyuan/ai_device/build/CMakeFiles/motor.dir
+/home/siyuan/ai_device/build/CMakeFiles/threadpool.dir
+/home/siyuan/ai_device/build/CMakeFiles/ai_device.dir
+/home/siyuan/ai_device/build/CMakeFiles/edit_cache.dir
+/home/siyuan/ai_device/build/CMakeFiles/rebuild_cache.dir

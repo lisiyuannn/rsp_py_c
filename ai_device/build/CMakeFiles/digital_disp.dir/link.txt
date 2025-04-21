@@ -1,0 +1,2 @@
+/usr/bin/ar qc /home/siyuan/ai_device/lib/libdigital_disp.a CMakeFiles/digital_disp.dir/src/digital_disp.cpp.o
+/usr/bin/ranlib /home/siyuan/ai_device/lib/libdigital_disp.a

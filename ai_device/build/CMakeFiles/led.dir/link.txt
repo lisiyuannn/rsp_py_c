@@ -1,0 +1,2 @@
+/usr/bin/ar qc /home/siyuan/ai_device/lib/libled.a CMakeFiles/led.dir/src/led.cpp.o
+/usr/bin/ranlib /home/siyuan/ai_device/lib/libled.a

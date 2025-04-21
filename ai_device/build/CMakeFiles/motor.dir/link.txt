@@ -1,0 +1,2 @@
+/usr/bin/ar qc /home/siyuan/ai_device/lib/libmotor.a CMakeFiles/motor.dir/src/motor.cpp.o
+/usr/bin/ranlib /home/siyuan/ai_device/lib/libmotor.a

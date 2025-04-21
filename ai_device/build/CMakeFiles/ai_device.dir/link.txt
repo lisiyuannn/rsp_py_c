@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/ai_device.dir/src/main.cpp.o -o /home/siyuan/ai_device/ai_device  /home/siyuan/ai_device/lib/libdigital_disp.a /home/siyuan/ai_device/lib/libled.a /home/siyuan/ai_device/lib/libmotor.a /home/siyuan/ai_device/lib/libthreadpool.a 
