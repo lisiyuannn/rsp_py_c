@@ -38,7 +38,7 @@ public:
     ThreadPool *m_threadpool; //线程池对象
 
 public:
-    ColorLed(int m_red_pin, int m_grn_pin, int m_blue_pin);
+    ColorLed(int m_red_pin, int m_grn_pin, int m_blue_pin, ThreadPool* pool);
     ~ColorLed();
 
     void setColor(int color[]);

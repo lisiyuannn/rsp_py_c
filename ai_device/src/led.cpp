@@ -16,8 +16,8 @@ using namespace std;
  * @param m_grn_pin 绿色 LED 灯的引脚编号。
  * @param m_blue_pin 蓝色 LED 灯的引脚编号。
  */
-ColorLed::ColorLed(int m_red_pin, int m_grn_pin, int m_blue_pin)
-    : m_red_pin(m_red_pin), m_grn_pin(m_grn_pin), m_blue_pin(m_blue_pin), 
+ColorLed::ColorLed(int m_red_pin, int m_grn_pin, int m_blue_pin, ThreadPool* pool)
+    : m_red_pin(m_red_pin), m_grn_pin(m_grn_pin), m_blue_pin(m_blue_pin), m_threadpool(pool),
     m_red_flag(false), m_grn_flag(false), m_blue_flag(false)
 {
     cout << "ColorLed(int, int, int)" << endl;
@@ -71,19 +71,32 @@ void ColorLed::_set_led_pwm(void* arg)
 {
     LedPwm *led_pwm = (LedPwm *)arg;
 
+    cout << "_set_led_pwm start" << endl;
+
     bool *pin_flag = nullptr;
     if(led_pwm->pin == led_pwm->led->m_blue_pin) pin_flag = &led_pwm->led->m_blue_flag;
     else if(led_pwm->pin == led_pwm->led->m_grn_pin) pin_flag = &led_pwm->led->m_grn_flag;
     else if(led_pwm->pin == led_pwm->led->m_red_pin) pin_flag = &led_pwm->led->m_red_flag;
 
+    int period = 1000000 / led_pwm->freq; // 总周期（微秒）
+    cout << "led_pwm->duty: " << led_pwm->duty << endl;
+    int high_time = period * led_pwm->duty / 100;
+    int low_time = period - high_time;
+
+    cout << "high_time: " << high_time << endl;
+    cout << "low_time: " << low_time << endl;
+
     //软件模拟pwm
     while(*pin_flag)
     {
         digitalWrite(led_pwm->pin, HIGH);
-        delayMicroseconds((int)(1/led_pwm->freq * 1000 * led_pwm->duty *10));
+        delayMicroseconds(high_time);
         digitalWrite(led_pwm->pin, LOW);
-        delayMicroseconds((int)(1 - (1/led_pwm->freq * 1000 * led_pwm->duty *10)));
+        delayMicroseconds(low_time);
     }
+
+    cout << "_set_led_pwm end" << endl;
+
 }
 
 void ColorLed::setLedOff(void)
@@ -108,21 +121,24 @@ void ColorLed::setColor(int color[])
     //处理红色通道
     pin = this->m_red_pin;
     freq = 100;
-    duty = (int)(2.55*color[0]);
+    duty = (int)((color[0])*(float)(100.0/255.0)); //将颜色值转换为0-100之间的值
     LedPwm led_pwm = {pin, freq, duty, this};     //可以使用局部变量，addjob会深拷贝一份
+    this->m_red_flag = true; //设置标志位
     this->m_threadpool->addJob(_set_led_pwm, (void*)&led_pwm, sizeof(led_pwm));
 
     //处理绿色通道
     pin = this->m_grn_pin;
     freq = 100;
-    duty = (int)(2.55*color[1]);
+    duty = (int)((color[1])*(float)(100.0/255.0)); //将颜色值转换为0-100之间的值
     led_pwm = {pin, freq, duty, this};     //可以使用局部变量，addjob会深拷贝一份
+    this->m_grn_flag = true; //设置标志位
     this->m_threadpool->addJob(_set_led_pwm, (void*)&led_pwm, sizeof(led_pwm));
 
     //处理蓝色通道
     pin = this->m_blue_pin;
     freq = 100;
-    duty = (int)(2.55*color[2]);
+    duty = (int)((color[2])*(float)(100.0/255.0)); //将颜色值转换为0-100之间的值
     led_pwm = {pin, freq, duty, this};     //可以使用局部变量，addjob会深拷贝一份
+    this->m_blue_flag = true; //设置标志位
     this->m_threadpool->addJob(_set_led_pwm, (void*)&led_pwm, sizeof(led_pwm));
 }
