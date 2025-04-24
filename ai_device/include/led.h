@@ -3,6 +3,7 @@
  * @brief LED control header file
  * @author SIYUAN
  * @date 2025/4/18
+ * @details This file contains the function declarations and macros for controlling
  */
 
 #ifndef __LED_H
