@@ -1,4 +1,5 @@
 #include "led.h"
+#include "main.h"
 #include <wiringPi.h>
 #include <unistd.h>
 #include <signal.h>

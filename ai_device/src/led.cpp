@@ -1,4 +1,5 @@
 #include "led.h"
+#include "main.h"
 #include "threadpool.h"
 #include <wiringPi.h>
 #include <iostream>
@@ -20,7 +21,9 @@ ColorLed::ColorLed(int m_red_pin, int m_grn_pin, int m_blue_pin, ThreadPool* poo
     : m_red_pin(m_red_pin), m_grn_pin(m_grn_pin), m_blue_pin(m_blue_pin), m_threadpool(pool),
     m_red_flag(false), m_grn_flag(false), m_blue_flag(false)
 {
+    #ifdef DEBUG
     cout << "ColorLed(int, int, int)" << endl;
+    #endif
     //设置引脚模式
     pinMode(this->m_blue_pin, OUTPUT);
     pinMode(this->m_grn_pin, OUTPUT);
@@ -40,7 +43,9 @@ ColorLed::ColorLed(int m_red_pin, int m_grn_pin, int m_blue_pin, ThreadPool* poo
  */
 ColorLed::~ColorLed()
 {
+    #ifdef DEBUG
     cout << "~ColorLed(int, int, int)" << endl;
+    #endif
 
     m_red_flag = false;
     m_grn_flag = false;
@@ -71,7 +76,9 @@ void ColorLed::_set_led_pwm(void* arg)
 {
     LedPwm *led_pwm = (LedPwm *)arg;
 
+    #ifdef DEBUG
     cout << "_set_led_pwm start" << endl;
+    #endif
 
     bool *pin_flag = nullptr;
     if(led_pwm->pin == led_pwm->led->m_blue_pin) pin_flag = &led_pwm->led->m_blue_flag;
@@ -79,12 +86,16 @@ void ColorLed::_set_led_pwm(void* arg)
     else if(led_pwm->pin == led_pwm->led->m_red_pin) pin_flag = &led_pwm->led->m_red_flag;
 
     int period = 1000000 / led_pwm->freq; // 总周期（微秒）
+    #ifdef DEBUG
     cout << "led_pwm->duty: " << led_pwm->duty << endl;
+    #endif
     int high_time = period * led_pwm->duty / 100;
     int low_time = period - high_time;
 
+    #ifdef DEBUG
     cout << "high_time: " << high_time << endl;
     cout << "low_time: " << low_time << endl;
+    #endif
 
     //软件模拟pwm
     while(*pin_flag)
@@ -95,7 +106,9 @@ void ColorLed::_set_led_pwm(void* arg)
         delayMicroseconds(low_time);
     }
 
+    #ifdef DEBUG
     cout << "_set_led_pwm end" << endl;
+    #endif
 
 }
 
