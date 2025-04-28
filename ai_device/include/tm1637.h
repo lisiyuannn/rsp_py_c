@@ -13,6 +13,18 @@
 
  #include <pthread.h>
 
+ enum class brightness_cmd:unsigned char
+ {
+     brightness_1 = 0x80,
+     brightness_2 = 0x81,
+     brightness_3 = 0x82,
+     brightness_4 = 0x83,
+     brightness_5 = 0x84,
+     brightness_6 = 0x85,
+     brightness_7 = 0x86,
+     brightness_8 = 0x87
+ };
+
 
 class TM1637
 {
@@ -25,33 +37,37 @@ private:
     bool m_auto_increment; // Auto-increment flag
 
 public:
-    const unsigned char code[]={0xc0,0xf9,0xa4,0xb0,0x99,   
-        0x92,0x82,0xf8,0x80,0x90,0x88,0x83,0xc6,0xa1,0x86,0x8e};
+    
+
+public:
+    const unsigned char code[16]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,
+        0x07,0x7F,0x6F,0x77,0x7C,0x39,0x5E,0x79,0x71};
 
 public:
     TM1637(int clk_pin, int dio_pin);
-    ~TM1637();
+    ~TM1637(void);
     
-    void init(void);
-    void set_brightness(int brightness);
+    void tm1637_init(void);
+    unsigned char set_brightness(unsigned char brightness);
     void set_display_on(void);
     void set_display_off(void);
     void set_auto_increment(bool auto_increment);
     void write_data_left(int data);
     void write_data_right(int data);
+    /**测试完成 */
+
+    /** */
 
     void clear_display(void);
 public:
-    void _update_data(void);
-    void _set_brightness(uint_t brightness);
-    void _write_buffer(int addr, int data);
-    void _set_display_on(bool display_on);
-    void _set_auto_increment(bool auto_increment);
+    /**测试完成 */
     void _start(void);
     void _stop(void);
-    void _wait_ack(void);
+    unsigned char _wait_ack(void);
     void _write_byte(unsigned char data);
-    void _send_command(unsigned char cmd);
+    /** */
+    void _write_buffer(int addr, int data);
+    unsigned char _send_command(unsigned char cmd);
 
 public:
     //设备锁，拿到锁之后才可以操作设备

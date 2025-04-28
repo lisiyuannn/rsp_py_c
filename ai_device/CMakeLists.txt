@@ -29,6 +29,7 @@ add_library(digital_disp STATIC src/digital_disp.cpp)
 add_library(led STATIC src/led.cpp)
 add_library(motor STATIC src/motor.cpp)
 add_library(threadpool STATIC src/threadpool.cpp)
+add_library(tm1637 STATIC src/tm1637.cpp)
 
 # 创建可执行文件
 add_executable(ai_device src/main.cpp)
@@ -39,6 +40,7 @@ target_link_libraries(ai_device
     led
     motor
     threadpool
+    tm1637
     ${WIRINGPI_LIBRARY}  # 添加WiringPi库链接
 )
 

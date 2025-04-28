@@ -2,6 +2,8 @@
 #include "main.h"
 #include <wiringPi.h>
 #include <iostream>
+#include <cstring>
+#include <mutex>
 
 using namespace std;
 
@@ -23,11 +25,8 @@ TM1637::TM1637(int clk_pin, int dio_pin)
     // 初始化显示数据
     memset(m_display_buff, 0, sizeof(m_display_buff));
 
-    //初始化锁，设置分离属性
-    pthread_mutexattr_t attr;
-    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
-    pthread_mutexattr_init(&this->m_mutex, &attr);
-    pthread_mutexattr_destroy(&attr);
+    //初始化锁
+    pthread_mutex_init(&this->m_mutex, NULL);
 }
 
 TM1637::~TM1637()
@@ -45,7 +44,7 @@ TM1637::~TM1637()
     pthread_mutex_destroy(&m_mutex);
 }
 
-TM1637::init()
+void TM1637::tm1637_init()
 {
     #ifdef DEBUG
     cout << "TM1637::init()" << endl;
@@ -72,11 +71,6 @@ TM1637::init()
     digitalWrite(this->m_dio_pin, LOW);
 
     // 开启数码管
-    _set_display_on();
-    // 设置亮度
-    _set_brightness(m_brightness);
-    // 设置地址自增
-    _set_auto_increment(m_auto_increment);
 
     for(int i = 0; i < 10; ++i)
     {
@@ -84,7 +78,6 @@ TM1637::init()
         _write_buffer(1, i);
         _write_buffer(2, i);
         _write_buffer(3, i);
-        _update_data();
         delayMicroseconds(1000000);
     }
     memset(m_display_buff, 0, sizeof(m_display_buff));
@@ -104,13 +97,17 @@ void TM1637::_start()
     #endif
 
     // 设置端口为输出模式
-    pinMode(this->pin_dio, OUTPUT);
-    pinMode(this->pin_clk, OUTPUT);
+    pinMode(this->m_clk_pin, OUTPUT);
+    pinMode(this->m_dio_pin, OUTPUT);
     // CLK为高电平时，DIO由高变低
-    digitalWrite(this->pin_clk, HIGH);
-    digitalWrite(this->pin_dio, HIGH);
-    delayMicroseconds(200);
-    digitalWrite(this->pin_dio, LOW);
+    digitalWrite(this->m_clk_pin, HIGH);
+    delayMicroseconds(2);
+    digitalWrite(this->m_dio_pin, HIGH);
+    delayMicroseconds(2);
+    digitalWrite(this->m_dio_pin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(this->m_clk_pin, LOW);
+    delayMicroseconds(2);
 }
 
 void TM1637::_stop()
@@ -120,72 +117,76 @@ void TM1637::_stop()
     #endif
 
     //设置端口为输出模式
-    pinMode(this->pin_dio, OUTPUT);
-    pinMode(this->pin_clk, OUTPUT);
+    pinMode(this->m_dio_pin, OUTPUT);
+    pinMode(this->m_clk_pin, OUTPUT);
     //CLK为高电平时，DIO由低变高
-    digitalWrite(this->pin_clk, LOW);
-    delayMicroseconds(200);
-    digitalWrite(this->pin_dio, LOW);
-    delayMicroseconds(200);
-    digitalWrite(this->pin_clk, HIGH);
-    delayMicroseconds(200);
-    digitalWrite(this->pin_dio, HIGH);
+    digitalWrite(this->m_clk_pin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(this->m_dio_pin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(this->m_clk_pin, HIGH);
+    delayMicroseconds(2);
+    digitalWrite(this->m_dio_pin, HIGH);
+    delayMicroseconds(2);
 }
 
-void TM1637::_wait_ack()
+unsigned char TM1637::_wait_ack()
 {
     //设置端口为输入模式
-    pinMode(this->pin_dio, INPUT);
+    pinMode(this->m_dio_pin, INPUT);
     //CLK先拉低，然后等待，再拉高，然后再拉低，DIO引脚会自动拉低
-    digitalWrite(this->pin_clk, LOW);
-    delayMicroseconds(500);
-    while(digitalRead(this->pin_dio) == HIGH)
+    digitalWrite(this->m_clk_pin, LOW);
+    delayMicroseconds(5);
+    while(digitalRead(this->m_dio_pin) == HIGH)
     {
         static int retry_count = 0;
         retry_count++;
         if(retry_count > 50)
         {
             perror("TM1637::_wait_ack() timeout");
-            return;
+            return 1;
         }
         delayMicroseconds(1);
     }
     //clk拉高
-    digitalWrite(this->pin_clk, HIGH);
-    delayMicroseconds(200);
+    digitalWrite(this->m_clk_pin, HIGH);
+    delayMicroseconds(2);
     //clk拉低
-    digitalWrite(this->pin_clk, LOW);
+    digitalWrite(this->m_clk_pin, LOW);
+    pinMode(this->m_dio_pin, OUTPUT);
+
+    return 0;
 }
 
 void TM1637::_write_byte(unsigned char data)
 {
     //设置端口为输出模式
-    pinMode(this->pin_dio, OUTPUT);
-    pinMode(this->pin_clk, OUTPUT);
+    pinMode(this->m_dio_pin, OUTPUT);
+    pinMode(this->m_clk_pin, OUTPUT);
     //发送一个字节数据
     for (int i = 0; i < 8; ++i)
     {
         //CLK先拉低
-        digitalWrite(this->pin_clk, LOW);
+        digitalWrite(this->m_clk_pin, LOW);
         if(data & 0x01)
         {
             //如果数据的最低位为1，DIO拉高
-            digitalWrite(this->pin_dio, HIGH);
+            digitalWrite(this->m_dio_pin, HIGH);
         }
         else
         {
             //如果数据的最低位为0，DIO拉低
-            digitalWrite(this->pin_dio, LOW);
+            digitalWrite(this->m_dio_pin, LOW);
         }
         delayMicroseconds(3);
-        data >> 1;
+        data >>= 1;
         //CLK拉高
-        digitalWrite(this->pin_clk, HIGH);
+        digitalWrite(this->m_clk_pin, HIGH);
         delayMicroseconds(3);
     }
 }
 
-void _write_buffer(int addr, int data)
+void TM1637::_write_buffer(int addr, int data)
 {
     #ifdef DEBUG
     cout << "TM1637::_write_buffer()" << endl;
@@ -202,67 +203,33 @@ void _write_buffer(int addr, int data)
         perror("TM1637::_write_buffer() data out of range");
         return;
     }
-
-    //写入
-    m_display_buff[addr] = data;
-
-
+    //将int类型数据转换为unsigned char类型数据
+    this->m_display_buff[addr] = this->code[data];
 }
 
-void TM1637::_send_command(unsigned char cmd)
+unsigned char TM1637::_send_command(unsigned char cmd)
 {
+    unsigned char ack = 0;
     _start();
     _write_byte(cmd);
-    _wait_ack();
+    ack = _wait_ack();
     _stop();
+    return ack;
 }
 
-void TM1637::_write_byte(unsigned char byte)
+
+/**用户函数 */
+unsigned char TM1637::set_brightness(unsigned char brightness)
 {
-    //设置端口为输出模式
-    pinMode(this->pin_dio, OUTPUT);
-    pinMode(this->pin_clk, OUTPUT);
-    //发送一个字节数据
-    for (int i = 0; i < 8; ++i)
+    //检查数据亮度是否正确
+    if(brightness < (unsigned char)(brightness_cmd::brightness_1) || 
+        brightness > (unsigned char)(brightness_cmd::brightness_8))
     {
-        //CLK先拉低
-        digitalWrite(this->pin_clk, LOW);
-        if(byte & 0x01)
-        {
-            //如果数据的最低位为1，DIO拉高
-            digitalWrite(this->pin_dio, HIGH);
-        }
-        else
-        {
-            //如果数据的最低位为0，DIO拉低
-            digitalWrite(this->pin_dio, LOW);
-        }
-        delayMicroseconds(3);
-        byte >> 1;
-        //CLK拉高
-        digitalWrite(this->pin_clk, HIGH);
-        delayMicroseconds(3);
+        cout << "TM1637::set_brightness() brightness out of range" << endl;
+        return 1;
     }
-}
-
-void TM1637::_update_data()
-{
-
-}
-
-void TM1637::_set_brightness(uint_t brightness)
-{
-
-
-}
-
-void TM1637::_set_display_on(bool display_on)
-{
-
-}
-
-
-void TM1637::_set_auto_increment(bool auto_increment)
-{
-
+    else
+    {
+        _send_command(brightness);
+    }
 }

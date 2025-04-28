@@ -159,5 +159,6 @@ CMakeFiles/led.dir/src/led.cpp.o: \
  /usr/include/c++/13/bits/allocated_ptr.h \
  /usr/include/c++/13/ext/aligned_buffer.h \
  /usr/include/c++/13/bits/list.tcc \
+ /home/siyuan/rsp_py_c/ai_device/include/main.h \
  /home/siyuan/rsp_py_c/ai_device/include/threadpool.h \
  /usr/local/include/wiringPi.h /usr/include/c++/13/cstring

@@ -1,0 +1,2 @@
+/usr/bin/ar qc /home/siyuan/rsp_py_c/ai_device/lib/libtm1637.a CMakeFiles/tm1637.dir/src/tm1637.cpp.o
+/usr/bin/ranlib /home/siyuan/rsp_py_c/ai_device/lib/libtm1637.a

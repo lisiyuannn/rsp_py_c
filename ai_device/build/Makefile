@@ -169,6 +169,19 @@ threadpool/fast:
 .PHONY : threadpool/fast
 
 #=============================================================================
+# Target rules for targets named tm1637
+
+# Build rule for target.
+tm1637: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tm1637
+.PHONY : tm1637
+
+# fast build rule for target.
+tm1637/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tm1637.dir/build.make CMakeFiles/tm1637.dir/build
+.PHONY : tm1637/fast
+
+#=============================================================================
 # Target rules for targets named ai_device
 
 # Build rule for target.
@@ -301,6 +314,30 @@ src/threadpool.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/threadpool.dir/build.make CMakeFiles/threadpool.dir/src/threadpool.cpp.s
 .PHONY : src/threadpool.cpp.s
 
+src/tm1637.o: src/tm1637.cpp.o
+.PHONY : src/tm1637.o
+
+# target to build an object file
+src/tm1637.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tm1637.dir/build.make CMakeFiles/tm1637.dir/src/tm1637.cpp.o
+.PHONY : src/tm1637.cpp.o
+
+src/tm1637.i: src/tm1637.cpp.i
+.PHONY : src/tm1637.i
+
+# target to preprocess a source file
+src/tm1637.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tm1637.dir/build.make CMakeFiles/tm1637.dir/src/tm1637.cpp.i
+.PHONY : src/tm1637.cpp.i
+
+src/tm1637.s: src/tm1637.cpp.s
+.PHONY : src/tm1637.s
+
+# target to generate assembly for a file
+src/tm1637.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tm1637.dir/build.make CMakeFiles/tm1637.dir/src/tm1637.cpp.s
+.PHONY : src/tm1637.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -314,6 +351,7 @@ help:
 	@echo "... led"
 	@echo "... motor"
 	@echo "... threadpool"
+	@echo "... tm1637"
 	@echo "... src/digital_disp.o"
 	@echo "... src/digital_disp.i"
 	@echo "... src/digital_disp.s"
@@ -329,6 +367,9 @@ help:
 	@echo "... src/threadpool.o"
 	@echo "... src/threadpool.i"
 	@echo "... src/threadpool.s"
+	@echo "... src/tm1637.o"
+	@echo "... src/tm1637.i"
+	@echo "... src/tm1637.s"
 .PHONY : help
 
 

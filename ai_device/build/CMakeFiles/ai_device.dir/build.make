@@ -96,6 +96,7 @@ ai_device_EXTERNAL_OBJECTS =
 /home/siyuan/rsp_py_c/ai_device/ai_device: /home/siyuan/rsp_py_c/ai_device/lib/libled.a
 /home/siyuan/rsp_py_c/ai_device/ai_device: /home/siyuan/rsp_py_c/ai_device/lib/libmotor.a
 /home/siyuan/rsp_py_c/ai_device/ai_device: /home/siyuan/rsp_py_c/ai_device/lib/libthreadpool.a
+/home/siyuan/rsp_py_c/ai_device/ai_device: /home/siyuan/rsp_py_c/ai_device/lib/libtm1637.a
 /home/siyuan/rsp_py_c/ai_device/ai_device: /usr/local/lib/libwiringPi.so
 /home/siyuan/rsp_py_c/ai_device/ai_device: CMakeFiles/ai_device.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/siyuan/rsp_py_c/ai_device/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable /home/siyuan/rsp_py_c/ai_device/ai_device"

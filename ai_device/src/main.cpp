@@ -21,7 +21,12 @@ int main()
     }
 
     TM1637 tm(21, 20);
-    tm.init();
+    //tm.tm1637_init();
+
+    tm._start();
+    tm._write_byte(0x88);
+    tm._wait_ack();
+    tm._stop();
 
     tm._start();
     tm._write_byte(0x40);
@@ -29,13 +34,18 @@ int main()
     tm._stop();
 
     tm._start();
-    tm._write_byte(0xc0);
+    tm._write_byte(0xC0);
     tm._wait_ack();
+    tm._stop();
+
+    tm._start();
 
     for(int i = 0; i < 10; i++)
     {
         tm._write_byte(tm.code[i]);
         tm._wait_ack();
+        cout << "write data: " << i << endl;
+        delay(1000);
     }
 
     tm._stop();

@@ -2,6 +2,7 @@
 /home/siyuan/rsp_py_c/ai_device/build/CMakeFiles/led.dir
 /home/siyuan/rsp_py_c/ai_device/build/CMakeFiles/motor.dir
 /home/siyuan/rsp_py_c/ai_device/build/CMakeFiles/threadpool.dir
+/home/siyuan/rsp_py_c/ai_device/build/CMakeFiles/tm1637.dir
 /home/siyuan/rsp_py_c/ai_device/build/CMakeFiles/ai_device.dir
 /home/siyuan/rsp_py_c/ai_device/build/CMakeFiles/edit_cache.dir
 /home/siyuan/rsp_py_c/ai_device/build/CMakeFiles/rebuild_cache.dir
