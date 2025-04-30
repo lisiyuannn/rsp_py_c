@@ -50,44 +50,24 @@ void TM1637::tm1637_init()
     cout << "TM1637::init()" << endl;
     #endif
 
-    // 拿锁
-    while(pthread_mutex_lock(&m_mutex) != 0)
-    {
-        static int retry_count = 0;
-        retry_count++;
-        delayMicroseconds(10000);
-        if(retry_count > 500)
-        {
-            perror("TM1637::init() lock failed");
-            return;
-        }
-    }
-
     // 设置引脚模式
-    pinMode(this->m_clk_pin, OUTPUT);
-    pinMode(this->m_dio_pin, OUTPUT);
-    // 设置引脚电平
-    digitalWrite(this->m_clk_pin, LOW);
-    digitalWrite(this->m_dio_pin, LOW);
+    pinMode(m_clk_pin, OUTPUT);
+    pinMode(m_dio_pin, OUTPUT);
 
-    // 开启数码管
+    set_display_on();
+    delay(100);
+    set_brightness(brightness_cmd::brightness_4);
+    delay(100);
+    set_display_on();
 
-    for(int i = 0; i < 10; ++i)
+    // 初始化显示数据
+    for (int i = 0; i < 10; ++i)
     {
-        _write_buffer(0, i);
-        _write_buffer(1, i);
-        _write_buffer(2, i);
-        _write_buffer(3, i);
-        delayMicroseconds(1000000);
+        set_display_data(i*1000+i*100+i*10+i);
+        flash_display();
+        delay(1000);
     }
-    memset(m_display_buff, 0, sizeof(m_display_buff));
     
-    #ifdef DEBUG
-    cout << "TM1637::init() success" << endl;
-    #endif
-
-    // 释放锁
-    pthread_mutex_unlock(&m_mutex);
 }
 
 void TM1637::_start()
@@ -186,25 +166,26 @@ void TM1637::_write_byte(unsigned char data)
     }
 }
 
-void TM1637::_write_buffer(int addr, int data)
+unsigned char TM1637::_set_buffer(unsigned char data, int addr)
 {
     #ifdef DEBUG
     cout << "TM1637::_write_buffer()" << endl;
     #endif
 
+    m_display_buff[addr] = data;
+
+    return 0;
+}
+
+unsigned char TM1637::_get_buffer(int addr)
+{
+    //参数检查
     if(addr < 0 || addr > 3)
     {
-        perror("TM1637::_write_buffer() addr out of range");
-        return;
+        cout << "TM1637::_get_buffer() addr out of range" << endl;
+        return -1;
     }
-
-    if(data >= 10 || data < 0)
-    {
-        perror("TM1637::_write_buffer() data out of range");
-        return;
-    }
-    //将int类型数据转换为unsigned char类型数据
-    this->m_display_buff[addr] = this->code[data];
+    return m_display_buff[addr];
 }
 
 unsigned char TM1637::_send_command(unsigned char cmd)
@@ -214,22 +195,137 @@ unsigned char TM1637::_send_command(unsigned char cmd)
     _write_byte(cmd);
     ack = _wait_ack();
     _stop();
+    delayMicroseconds(20000);
     return ack;
+}
+
+unsigned char TM1637::_set_auto_increment(bool auto_increment)
+{
+    if(auto_increment)
+    {
+        //开启地址自增
+        return _send_command(0x40);
+    }
+    else
+    {
+        //使用固定地址
+        return _send_command(0x44);
+    }
 }
 
 
 /**用户函数 */
-unsigned char TM1637::set_brightness(unsigned char brightness)
+unsigned char TM1637::set_brightness(brightness_cmd brightness)
+{
+
+    return (_send_command((unsigned char)brightness) || _send_command(0x88));
+    
+}
+
+unsigned char TM1637::set_brightness(int brightness)
 {
     //检查数据亮度是否正确
-    if(brightness < (unsigned char)(brightness_cmd::brightness_1) || 
-        brightness > (unsigned char)(brightness_cmd::brightness_8))
+    if(brightness < 1 || brightness > 8)
     {
         cout << "TM1637::set_brightness() brightness out of range" << endl;
         return 1;
     }
     else
     {
-        _send_command(brightness);
+        auto cmd = static_cast<unsigned char>(
+            (unsigned char)(brightness_cmd::brightness_1)
+             + brightness - 1);
+
+        return (_send_command(cmd) || _send_command(0x88));
     }
+}
+
+
+unsigned char TM1637::set_display_on(void)
+{
+    return _send_command(0x88);
+}
+
+unsigned char TM1637::set_display_off(void)
+{
+    return _send_command(0x80);
+}
+
+
+unsigned char TM1637::set_display_data(int data, int addr)
+{
+    //参数检查
+    if(data < 0 || data > 9 || addr < 0 || addr > 3)
+    {
+        cout << "TM1637::set_display_data() data or addr out of range" << endl;
+        return 1;
+    }
+    else
+    
+    return _set_buffer(this->m_code[data], addr);
+}
+
+unsigned char TM1637::set_display_data(int data)
+{
+    //参数检查
+    if(data < 0 || data > 9999)
+    {
+        cout << "TM1637::set_display_data() data out of range" << endl;
+        return 1;
+    }
+    else
+    {
+        int temp  = 0;
+        for(int i = 0; i < 4; ++i)
+        {
+            temp = data % 10;
+            _set_buffer(this->m_code[temp], i);
+            data /= 10;
+        }
+    }
+    return 0;
+}
+
+unsigned char TM1637::flash_display()
+{
+    int ret = 0;
+    _set_auto_increment(true);
+    //发送数据
+    _start();
+    _write_byte(m_addr[0]);
+    ret |= _wait_ack();
+    for(int i = 0; i < 4; ++i)
+    {
+        _write_byte(this->m_display_buff[i]);
+        ret |= _wait_ack();
+    }
+    _stop();
+
+    return ret;
+}
+
+unsigned char TM1637::clear_display()
+{
+    //清空显示数据
+    set_display_data(0);
+    //清空显示
+    return flash_display();
+}
+
+unsigned char TM1637::set_colon(bool colon)
+{
+    unsigned ret = 0;
+
+    //向固定地址写入
+    if(colon)
+    {
+        ret = _set_buffer((m_display_buff[1]|0x80), 1);
+    }
+    else
+    {
+        ret = _set_buffer((m_display_buff[1]&0x7F), 1);
+    }
+    
+    
+    return ret;
 }

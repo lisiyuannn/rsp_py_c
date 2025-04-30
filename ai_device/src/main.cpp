@@ -23,32 +23,36 @@ int main()
     TM1637 tm(21, 20);
     //tm.tm1637_init();
 
-    tm._start();
-    tm._write_byte(0x88);
-    tm._wait_ack();
-    tm._stop();
+    tm.tm1637_init();
 
-    tm._start();
-    tm._write_byte(0x40);
-    tm._wait_ack();
-    tm._stop();
+    tm.set_colon(true);
+    tm.flash_display();
+    delay(1000);
+    
+    tm.set_display_data(1);
+    tm.flash_display();
+    delay(1000);
+    tm.set_display_data(22);
+    tm.flash_display();
+    delay(1000);
+    tm.set_display_data(333);
+    tm.flash_display();
+    delay(1000);
+    tm.set_display_data(4444);
+    tm.flash_display();
+    delay(1000);
 
-    tm._start();
-    tm._write_byte(0xC0);
-    tm._wait_ack();
-    tm._stop();
+    tm.set_display_data(14, 0);
+    tm.flash_display();
+    delay(1000);
+    tm.set_display_data(13, 1);
+    tm.set_colon(true);
+    tm.flash_display();
+    delay(1000);
 
-    tm._start();
-
-    for(int i = 0; i < 10; i++)
-    {
-        tm._write_byte(tm.code[i]);
-        tm._wait_ack();
-        cout << "write data: " << i << endl;
-        delay(1000);
-    }
-
-    tm._stop();
+    tm.clear_display();
+    delay(1000);
+    tm.set_display_off();
     
 
     return 0;
